@@ -1,0 +1,7 @@
+.calender {
+    width: 100%;
+    min-width: 15rem;
+    height: calc(60% - 1rem);
+    background-color: rgb(13, 13, 13);
+    border-radius: 1rem;
+}
