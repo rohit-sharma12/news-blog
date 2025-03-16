@@ -9,7 +9,7 @@ import Bookmark from './bookmark'
 
 const categories = ['general', 'world', 'bussiness', 'sport', 'technology', 'entertainment', 'science', 'health', 'nation']
 
-const News = () => {
+const News = ({ onShowBlogs }) => {
     const [headline, setHeadline] = useState(null);
     const [news, setNews] = useState([]);
     const [category, setCategory] = useState('general');
@@ -37,9 +37,11 @@ const News = () => {
                     article.image = img
                 }
             })
-
             setHeadline(fetchedNews[0])
             setNews(fetchedNews.slice(1, 7))
+
+            const savedBookmarks = JSON.parse(localStorage.getItem('bookmark')) || []
+            setBookmark(savedBookmarks)
         }
         fetchNews()
     }, [category, searchQuery])
@@ -63,6 +65,8 @@ const News = () => {
     const handleBookmarkClick = (article) => {
         setBookmark((prevBookmark) => {
             const updateBookmark = prevBookmark.find((bookmark) => bookmark.title === article.title) ? prevBookmark.filter((bookmark) => bookmark.title !== article.title) : [...prevBookmark, article]
+            localStorage.setItem("bookmark", JSON.stringify(updateBookmark))
+
             return updateBookmark
         })
     }
@@ -82,7 +86,7 @@ const News = () => {
             </header>
             <div className='content'>
                 <div className="navbar">
-                    <div className="user">
+                    <div className="user" onClick={onShowBlogs}>
                         <img src="/src/assets/user.png" alt="" />
                         <p>Rohit's Blog</p>
                     </div>
@@ -92,7 +96,7 @@ const News = () => {
                             {categories.map((category) => (
                                 <a key={category} href="#" className='link' onClick={(e) => handleCategory(e, category)}>{category}</a>
                             ))}
-                            <a href="#" className='link' onClick={() =>setShowBookmark(true)}>Bookmarks
+                            <a href="#" className='link' onClick={() => setShowBookmark(true)}>Bookmarks
                                 <i class="fa-solid fa-bookmark"></i>
                             </a>
                         </div>
@@ -124,14 +128,73 @@ const News = () => {
                     </div>
                 </div>
                 <NewsModel show={showModal} article={selectedArticle} onClose={() => setShowModel(false)} />
-                <Bookmark show={ showBookmark} bookmark={bookmark} onClose={() => setShowBookmark(false)} onSelectArticle={handleBookmarkClick} onDeleteBookmark={handleBookmarkClick} />
-                <div className="my-blogs">My Blogs</div>
+                <Bookmark show={showBookmark} bookmark={bookmark} onClose={() => setShowBookmark(false)} onSelectArticle={handleBookmarkClick} onDeleteBookmark={handleBookmarkClick} />
+
+                <div className="my-blogs">
+                    <h1 className='my-blog-heading'>My Blogs</h1>
+                    <div className="blog-posts">
+                        <div className="blog-post">
+                            <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" alt="" />
+                            <h3>Lorem ipsum dolor sit.</h3>
+                            <div className="post-button">
+                                <button className='edit-post'>
+                                   <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button className='delete-post'>
+                                   <i class="fa-solid fa-circle-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="blog-post">
+                            <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" alt="" />
+                            <h3>Lorem ipsum dolor sit.</h3>
+                            <div className="post-button">
+                                <button className='edit-post'>
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button className='delete-post'>
+                                   <i class="fa-solid fa-circle-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="blog-post">
+                            <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" alt="" />
+                            <h3>Lorem ipsum dolor sit.</h3>
+                            <div className="post-button">
+                                <button className='edit-post'>
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button className='delete-post'>
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="blog-post">
+                            <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" alt="" />
+                            <h3>Lorem ipsum dolor sit.</h3>
+                            <div className="post-button">
+                                <button className='edit-post'>
+                                   <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button className='delete-post'>
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="weather-calendar">
                     <Weather />
                     <Calender />
                 </div>
             </div>
-            <footer className='news-footer'>Footer</footer>
+            <footer className='news-footer'>
+                <p>
+                    <span>News & Blogs App</span>
+                </p>
+                <p>&copy; All Right Reserved</p>
+            </footer>
         </div>
     )
 }

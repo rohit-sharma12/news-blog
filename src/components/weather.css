@@ -1,7 +1,103 @@
 .weather {
     width: 100%;
-    min-width: 15rem;
+    min-width: 10rem;
     height: 45%;
     background-color: rgb(13, 13, 13);
     border-radius: 1rem;
+    padding: 1rem .85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 1rem;
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+    row-gap: .85rem;
+}
+
+.search-top {
+    display: flex;
+    align-items: center;
+    column-gap: .8rem;
+}
+
+.search-top i {
+    font-size: 1rem;
+    color: #ddd;
+}
+
+.location {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ddd;
+}
+
+.search-location {
+    position: relative;
+}
+
+.search-location input {
+    width: clamp(2rem, 2cqi, 2rem);
+    height: 2rem;
+    border: none;
+    background-color: transparent;
+    border-bottom: 0.1rem solid #aaa;
+    font-size: 1rem;
+    color: #ddd;
+}
+
+.search-location i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 1rem;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+}
+
+.weather-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1rem;
+}
+
+.weather-data i {
+    font-size: 2.5rem;
+}
+
+.weather-data i.fa-cloud {
+    color: #ddd;
+}
+
+.weather-data i.fa-cloud-sun {
+    color: #ffc87c;
+}
+
+.weather-data i.fa-cloud-rain {
+    color: #5fd1f9;
+}
+
+.weather-data i.fa-bolt {
+    color: #154adb;
+}
+
+.weather-data i.fa-snowman {
+    color: #52e5e7;
+}
+
+
+.weather-type,
+.temp {
+    font-size: 1rem;
+    color: #ddd;
+}
+
+.not-found {
+    font-size: 1rem;
+    color: #ddd;
 }
