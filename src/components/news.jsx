@@ -6,10 +6,11 @@ import axios from 'axios'
 import img from '../assets/img.png'
 import NewsModel from './newsModel'
 import Bookmark from './bookmark'
+import BlogModal from './blogModal'
 
 const categories = ['general', 'world', 'bussiness', 'sport', 'technology', 'entertainment', 'science', 'health', 'nation']
 
-const News = ({ onShowBlogs }) => {
+const News = ({ onShowBlogs, blogs }) => {
     const [headline, setHeadline] = useState(null);
     const [news, setNews] = useState([]);
     const [category, setCategory] = useState('general');
@@ -19,6 +20,8 @@ const News = ({ onShowBlogs }) => {
     const [selectedArticle, setSelectedAreticle] = useState(null);
     const [bookmark, setBookmark] = useState([]);
     const [showBookmark, setShowBookmark] = useState(false);
+    const [selectPost, setSelectPost] = useState(null);
+    const [showBlogModal, setShowBlogModal] = useState(false);
 
     useEffect(() => {
         const fetchNews = async () => {
@@ -69,6 +72,16 @@ const News = ({ onShowBlogs }) => {
 
             return updateBookmark
         })
+    }
+
+    const handleBlogClick = (blog) => {
+        setSelectPost(blog)
+        setShowBlogModal(true)
+    }
+
+    const closeBlogModal = () => {
+        setShowBlogModal(false)
+        setSelectPost(null)
     }
 
     return (
@@ -133,55 +146,26 @@ const News = ({ onShowBlogs }) => {
                 <div className="my-blogs">
                     <h1 className='my-blog-heading'>My Blogs</h1>
                     <div className="blog-posts">
-                        <div className="blog-post">
-                            <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" alt="" />
-                            <h3>Lorem ipsum dolor sit.</h3>
-                            <div className="post-button">
-                                <button className='edit-post'>
-                                   <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button className='delete-post'>
-                                   <i class="fa-solid fa-circle-xmark"></i>
-                                </button>
+                        {blogs.map((blog, index) => (
+                            <div key={index} className='blog-post'>
+                                <img src={blog.image || img} alt="" />
+                                <h3>{blog.title}</h3>
+                                {/* <p>{blog.content}</p> */}
+                                <div className="post-button">
+                                    <button className='edit-post'>
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button className='delete-post'>
+                                        <i class="fa-solid fa-circle-xmark"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="blog-post">
-                            <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" alt="" />
-                            <h3>Lorem ipsum dolor sit.</h3>
-                            <div className="post-button">
-                                <button className='edit-post'>
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button className='delete-post'>
-                                   <i class="fa-solid fa-circle-xmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div className="blog-post">
-                            <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" alt="" />
-                            <h3>Lorem ipsum dolor sit.</h3>
-                            <div className="post-button">
-                                <button className='edit-post'>
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button className='delete-post'>
-                                    <i class="fa-solid fa-circle-xmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div className="blog-post">
-                            <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" alt="" />
-                            <h3>Lorem ipsum dolor sit.</h3>
-                            <div className="post-button">
-                                <button className='edit-post'>
-                                   <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button className='delete-post'>
-                                    <i class="fa-solid fa-circle-xmark"></i>
-                                </button>
-                            </div>
-                        </div>
+                        ))}
                     </div>
+                    {selectPost && showBlogModal && (
+                        <BlogModal show={showBlogModal} blog={ selectPost} onClose={closeBlogModal} />
+                    )}
+                    
                 </div>
 
                 <div className="weather-calendar">

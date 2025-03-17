@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css'
 import Blog from './components/blog';
 import News from './components/news';
@@ -6,6 +6,19 @@ import News from './components/news';
 function App() {
   const [showNews, setShowNews] = useState(true);
   const [showBlog, setShowBlog] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const savedBlogs = JSON.parse(localStorage.getItem('blogs')) || []
+    setBlogs(savedBlogs)
+  }, [])
+  const handleCreateBloog = (newBlog) => {
+    setBlogs((prevBlogs) => {
+      const updatedBlogs = [...prevBlogs, newBlog]
+      localStorage.setItem("blogs", JSON.stringify(updatedBlogs))
+      return updatedBlogs
+    })
+  }
 
   const handleShowBlogs = () => {
     setShowNews(false)
@@ -21,9 +34,9 @@ function App() {
   return (
     <div className='container'>
       <div className='news-blog'>
-        {showNews && <News onShowBlogs={handleShowBlogs} />}
-        {showBlog&& <Blog onBack={handleBackToNews} />}
-       
+        {showNews && <News onShowBlogs={handleShowBlogs} blogs={blogs} />}
+        {showBlog && <Blog onBack={handleBackToNews} onCreateBlog={handleCreateBloog} />}
+
       </div>
 
     </div>
