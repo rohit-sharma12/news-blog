@@ -10,7 +10,7 @@ import BlogModal from './blogModal'
 
 const categories = ['general', 'world', 'bussiness', 'sport', 'technology', 'entertainment', 'science', 'health', 'nation']
 
-const News = ({ onShowBlogs, blogs }) => {
+const News = ({ onShowBlogs, blogs, onEditBlog, onDeleteBlog }) => {
     const [headline, setHeadline] = useState(null);
     const [news, setNews] = useState([]);
     const [category, setCategory] = useState('general');
@@ -25,11 +25,11 @@ const News = ({ onShowBlogs, blogs }) => {
 
     useEffect(() => {
         const fetchNews = async () => {
-            let url = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&apikey=f93d713a97e1fc26ac2f9d8fe6162a37`;
+            let url = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&apikey=3ef8bf42b00a347d1032084a694706bd`;
 
 
             if (searchQuery) {
-                url = `https://gnews.io/api/v4/search?q=${searchQuery}&apikey=f93d713a97e1fc26ac2f9d8fe6162a37`
+                url = `https://gnews.io/api/v4/search?q=${searchQuery}&apikey=3ef8bf42b00a347d1032084a694706bd`
             }
 
             const response = await axios.get(url)
@@ -147,15 +147,18 @@ const News = ({ onShowBlogs, blogs }) => {
                     <h1 className='my-blog-heading'>My Blogs</h1>
                     <div className="blog-posts">
                         {blogs.map((blog, index) => (
-                            <div key={index} className='blog-post'>
+                            <div key={index} className='blog-post' onClick={() => handleBlogClick(blog)}>
                                 <img src={blog.image || img} alt="" />
                                 <h3>{blog.title}</h3>
                                 {/* <p>{blog.content}</p> */}
                                 <div className="post-button">
-                                    <button className='edit-post'>
+                                    <button className='edit-post' onClick={() => onEditBlog(blog)}>
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-                                    <button className='delete-post'>
+                                    <button className='delete-post' onClick={(e) => {
+                                        e.stopPropagation()
+                                        onDeleteBlog(blog)
+                                    }}>
                                         <i class="fa-solid fa-circle-xmark"></i>
                                     </button>
                                 </div>
@@ -163,9 +166,9 @@ const News = ({ onShowBlogs, blogs }) => {
                         ))}
                     </div>
                     {selectPost && showBlogModal && (
-                        <BlogModal show={showBlogModal} blog={ selectPost} onClose={closeBlogModal} />
+                        <BlogModal show={showBlogModal} blog={selectPost} onClose={closeBlogModal} />
                     )}
-                    
+
                 </div>
 
                 <div className="weather-calendar">
@@ -179,7 +182,7 @@ const News = ({ onShowBlogs, blogs }) => {
                 </p>
                 <p>&copy; All Right Reserved</p>
             </footer>
-        </div>
+        </div >
     )
 }
 

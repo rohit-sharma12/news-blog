@@ -101,3 +101,17 @@
     font-size: 1rem;
     color: #ddd;
 }
+
+@media(max-width: 900px) {
+    .weather {
+        height: 100%;
+    }
+
+    .search-location input {
+        width: 15rem;
+    }
+
+    .search-top {
+        margin-left: 2rem;
+    }
+}

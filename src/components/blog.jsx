@@ -1,23 +1,45 @@
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import './Blog.css';
 import img from '../assets/img.png'
 
-const Blog = ({ onBack, onCreateBlog }) => {
+const Blog = ({ onBack, onCreateBlog, editPost, isEditing }) => {
     const [showForm, setShowForm] = useState(false);
     const [image, setImage] = useState(null);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [submit, setSubmit] = useState(false);
     const [titleValid, setTitleValid] = useState(true);
-    const [contentValid, setContentValid] = useState(true)
+    const [contentValid, setContentValid] = useState(true);
+
+    useEffect(() => {
+        if (isEditing && editPost) {
+            setImage(editPost.image)
+            setTitle(editPost.title)
+            setContent(editPost.content)
+            setShowForm(true)
+        } else {
+            setImage(null)
+            setTitle('')
+            setContent('')
+            setShowForm(false)
+        }
+    },[isEditing, editPost])
 
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0]
+
+            const maxSize = 1 * 1024 * 1024
+            if (file.size > maxSize) {
+                alert('File size exceeds 1 MB')
+                return
+            }
+
             const reader = new FileReader()
             reader.onloadend = () => {
                 setImage(reader.result)
             }
-            reader.readAsDataURL(e.target.files[0])
+            reader.readAsDataURL(file)
         }
     }
 
@@ -27,7 +49,7 @@ const Blog = ({ onBack, onCreateBlog }) => {
     }
 
     const handleContentChange = (e) => {
-        setContent(e.target.value) 
+        setContent(e.target.value)
         setContentValid(true)
     }
 
@@ -43,7 +65,7 @@ const Blog = ({ onBack, onCreateBlog }) => {
             title,
             content,
         }
-        onCreateBlog(newBlog)
+        onCreateBlog(newBlog, isEditing)
         setImage(null)
         setTitle('')
         setContent('')
@@ -65,7 +87,7 @@ const Blog = ({ onBack, onCreateBlog }) => {
                 )}
                 {submit && <p className='submission-msg'>Post Submitted</p>}
                 <div className={`right-form ${showForm ? 'visible' : 'hidden'}`}>
-                    <h1>New Post</h1>
+                    <h1>{ isEditing ? "Edit Post" : "New Post"}</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="img-upload">
                             <label htmlFor="file-upload" className='file-upload'>
@@ -73,11 +95,13 @@ const Blog = ({ onBack, onCreateBlog }) => {
                             </label>
                             <input type="file" id='file-upload' onChange={handleImageChange} />
                         </div>
-                        <input type="text" placeholder='Add Title(Max 50 Characters)' className={`title-input ${!titleValid ? 'invalid' 
-                              : ''}`} value={title} onChange={handleTitleChange} maxLength={60} />
+                        <input type="text" placeholder='Add Title(Max 50 Characters)' className={`title-input ${!titleValid ? 'invalid'
+                            : ''}`} value={title} onChange={handleTitleChange} maxLength={60} />
                         <textarea className={`text-input ${!contentValid ? 'invalid' : ''
-                        }`} placeholder='Add Text' value={content} onChange={handleContentChange}></textarea>
-                        <button className='submit-btn' type='submit'>Submit</button>
+                            }`} placeholder='Add Text' value={content} onChange={handleContentChange}></textarea>
+                        <button className='submit-btn' type='submit'>
+                            {isEditing ? "Update Post" : "Submit"}
+                        </button>
                     </form>
                 </div>
                 <button className='close-btn' onClick={onBack}>

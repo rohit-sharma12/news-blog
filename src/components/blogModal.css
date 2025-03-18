@@ -13,7 +13,7 @@
     letter-spacing: .01rem;
 }
 
-.content {
+.post-content {
     font-size: .85rem;
     color: #bbb;
     margin: .60rem;
@@ -21,6 +21,6 @@
     max-height: 10rem;
 }
 
-.content::-webkit-scrollbar{
+.post-content::-webkit-scrollbar{
     display: none;
 }

@@ -18,6 +18,11 @@
     border-radius: 0.85rem;
     box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.7);
     position: relative;
+    overflow-y: scroll;
+}
+
+.model-content::-webkit-scrollbar{
+    display: none;
 }
 
 .btn {

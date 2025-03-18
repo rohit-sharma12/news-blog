@@ -170,3 +170,27 @@
 .close-btn i {
     font-size: 1rem;
 }
+
+@media(max-width: 900px) {
+    .left {
+        background: none;
+        width: 100%;
+    }
+    .left img {
+        top:10%;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .right{
+        position: absolute;
+        inset: 0;
+        width: 100%;
+    }
+
+    .close-btn{
+        top: 5rem;
+        right: 2rem;
+    }
+}
