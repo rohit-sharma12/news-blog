@@ -75,7 +75,7 @@ const Weather = () => {
                     <div className="location">{data.name}</div>
                 </div>
                 <div className="search-location">
-                    <input type="text" placeholder='Enter Location' value={location} onChange={handleInputChange} onKeyDown={handleKey}/>
+                    <input type="text" placeholder='Enter Location' value={location} onChange={handleInputChange} onKeyDown={handleKey} />
                     <i className='fa-solid fa-magnifying-glass' onClick={search}></i>
                 </div>
             </div>
@@ -83,7 +83,7 @@ const Weather = () => {
                 <div className="weather-data">
                     {data.weather && data.weather[0] && getWheatherIcon(data.weather[0].main)}
                     <div className="weather-type">{data.weather ? data.weather[0].main : null}</div>
-                    <div className="temp">{data.main ? `${Math.floor(data.main.temp)}*` : null}</div>
+                    <div className="temp">  {data.main ? `${Math.floor(data.main.temp - 273.15).toFixed(1)}°C` : null}</div>
                 </div>
             )}
 

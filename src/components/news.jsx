@@ -100,8 +100,8 @@ const News = ({ onShowBlogs, blogs, onEditBlog, onDeleteBlog }) => {
             <div className='content'>
                 <div className="navbar">
                     <div className="user" onClick={onShowBlogs}>
-                        <img src="/src/assets/user.png" alt="" />
-                        <p>Rohit's Blog</p>
+                        <img src="/src/assets/logo.png" alt="" />
+                        <p>Create Blog</p>
                     </div>
                     <nav className="categories">
                         <h1 className='nav-heading'>Categories</h1>
@@ -177,9 +177,7 @@ const News = ({ onShowBlogs, blogs, onEditBlog, onDeleteBlog }) => {
                 </div>
             </div>
             <footer className='news-footer'>
-                <p>
-                    <span>News & Blogs App</span>
-                </p>
+                <img src="/src/assets/logo.png" alt="" />
                 <p>&copy; All Right Reserved</p>
             </footer>
         </div >
